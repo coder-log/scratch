@@ -15,11 +15,12 @@
 /**
  * Theme setup.
  * Attach all of the site-wide functions to the correct hooks and filters. All the funcions themeselves are defined below this setup function.
+ * The number 15 is for theme function is to force setup after Genesis parent, otherwise some things will be overriden.
  */
- add_action('genesis_setup', 'scratch_setup');
+ add_action('genesis_setup', 'scratch_setup', 15);
  function scratch_setup() {
      //Define constants
-     Define('CHILD_THEME_NAME','Scratch');
+     Define('CHILD_THEME_NAME','scratch');
      Define('CHILD_THEME_URL', 'http:/github.com/coder-log/scratch');
      Define('CHILD_THEME_VERSION', '1.0.0');
 
@@ -43,5 +44,16 @@
 
     //Add theme support for footer widgets
     add_theme_support('genesis_footer_widgets',3);
+
+    //Unregister innecesary layouts
+    genesis_unregister_layout('content-sidebar-sidebar');
+    genesis_unregister_layout('sidebar-content-sidebar');
+    genesis_unregister_layout('sidebar-sidebar-content');
+
+    //Unregister secondary sidebar
+    unregister_sidebar('sidebar-alt');
+
+    //Add includes/widget-areas.php
+    include_once(get_stylesheet_directory() . '/includes/widget-areas.php');
 
  }
